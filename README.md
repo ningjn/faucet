@@ -50,8 +50,8 @@ Think of it as an open-source alternative to [DreamFactory](https://www.dreamfac
 ```
 ┌──────────────┐       ┌───────────────────────────────────────┐       ┌──────────────┐
 │ PostgreSQL   │       │              F A U C E T              │       │   REST API   │
-│ MySQL        │──────▶│                                       │──────▶│   /api/v1/*  │
-│ MariaDB      │  SQL  │  ┌─────────┐ ┌──────┐ ┌───────────┐   │       ├──────────────┤
+│ KingbaseES   │──────▶│                                       │──────▶│   /api/v1/*  │
+│ MySQL/MariaDB│  SQL  │  ┌─────────┐ ┌──────┐ ┌───────────┐   │       ├──────────────┤
 │ SQL Server   │◀──────│  │ Schema  │ │ RBAC │ │  OpenAPI  │   │──────▶│  OpenAPI 3.1 │
 │ Oracle       │       │  │ Intro-  │ │ Auth │ │ Generator │   │       │ /openapi.json│
 │ Snowflake    │       │  │ spection│ │      │ │           │   │       ├──────────────┤
@@ -123,6 +123,7 @@ Think of it as an open-source alternative to [DreamFactory](https://www.dreamfac
 | Database | Versions | Cloud Variants |
 |----------|----------|----------------|
 | **PostgreSQL** | 9.6 – 17 | Amazon RDS, Aurora, Supabase, Neon, Azure Database |
+| **KingbaseES** | V8R6 (PG mode) | 人大金仓, via official gokb driver |
 | **MySQL** | 5.7 – 9.x | Amazon RDS, Aurora MySQL, PlanetScale, Azure MySQL |
 | **MariaDB** | 10.2 – 11.x | Via MySQL driver |
 | **SQL Server** | 2008 – 2022 | Azure SQL Database, Amazon RDS |
@@ -348,7 +349,7 @@ POST   /api/v1/{service}/_proc/{proc}            # Call procedure
 ## FAQ
 
 **How is Faucet different from PostgREST?**
-PostgREST only supports PostgreSQL. Faucet supports 7 databases (PostgreSQL, MySQL, MariaDB, SQL Server, Oracle, Snowflake, SQLite), includes a built-in admin UI, and provides native MCP support for AI agents — all in a single binary.
+PostgREST only supports PostgreSQL. Faucet supports 8 databases (PostgreSQL, KingbaseES, MySQL, MariaDB, SQL Server, Oracle, Snowflake, SQLite), includes a built-in admin UI, and provides native MCP support for AI agents — all in a single binary.
 
 **How is Faucet different from Hasura?**
 Hasura requires Docker, a PostgreSQL metadata database, and is primarily GraphQL-focused. Faucet is a single binary with no dependencies, generates REST APIs (not GraphQL), and includes built-in MCP server support for AI agent integration.

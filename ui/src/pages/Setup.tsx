@@ -6,6 +6,7 @@ type Step = 'welcome' | 'admin' | 'database' | 'done';
 
 const DB_DRIVERS = [
   { value: 'postgres', label: 'PostgreSQL' },
+  { value: 'kingbase', label: 'Kingbase' },
   { value: 'mysql', label: 'MySQL' },
   { value: 'mssql', label: 'SQL Server' },
   { value: 'snowflake', label: 'Snowflake' },
@@ -97,6 +98,8 @@ export function Setup({ onComplete }: SetupProps = {}) {
     switch (driver) {
       case 'postgres':
         return 'postgres://user:pass@localhost:5432/dbname?sslmode=disable';
+      case 'kingbase':
+        return 'kingbase://user:pass@localhost:54321/dbname?sslmode=disable';
       case 'mysql':
         return 'user:pass@tcp(localhost:3306)/dbname';
       case 'mssql':

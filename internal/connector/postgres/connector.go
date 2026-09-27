@@ -16,18 +16,26 @@ import (
 type PostgresConnector struct {
 	db         *sqlx.DB
 	schemaName string
+	driverName string // database/sql driver name used by sqlx.Connect
 }
 
 // New creates a new PostgresConnector with default settings.
 func New() connector.Connector {
-	return &PostgresConnector{schemaName: "public"}
+	return NewWithDriver("pgx")
+}
+
+// NewWithDriver creates a PostgresConnector that connects through the given
+// database/sql driver name. PostgreSQL-compatible databases (e.g. KingbaseES)
+// reuse this implementation with their own driver.
+func NewWithDriver(driverName string) *PostgresConnector {
+	return &PostgresConnector{schemaName: "public", driverName: driverName}
 }
 
 // Connect establishes a connection to the PostgreSQL database using the
 // provided configuration. It configures connection pool settings and stores
 // the schema name for introspection queries.
 func (c *PostgresConnector) Connect(cfg connector.ConnectionConfig) error {
-	db, err := sqlx.Connect("pgx", cfg.DSN)
+	db, err := sqlx.Connect(c.driverName, cfg.DSN)
 	if err != nil {
 		return fmt.Errorf("postgres connect: %w", err)
 	}

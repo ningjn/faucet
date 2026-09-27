@@ -20,6 +20,7 @@ require (
 	github.com/spf13/viper v1.21.0
 	golang.org/x/term v0.40.0
 	gopkg.in/yaml.v3 v3.0.1
+	kingbase.com/gokb v0.0.0-00010101000000-000000000000
 	modernc.org/sqlite v1.46.0
 )
 
@@ -123,3 +124,5 @@ require (
 	modernc.org/mathutil v1.7.1 // indirect
 	modernc.org/memory v1.11.0 // indirect
 )
+
+replace kingbase.com/gokb => ./third_party/gokb

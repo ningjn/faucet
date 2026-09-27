@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/faucetdb/faucet/internal/connector"
+	"github.com/faucetdb/faucet/internal/connector/kingbase"
 	"github.com/faucetdb/faucet/internal/connector/mssql"
 	"github.com/faucetdb/faucet/internal/connector/mysql"
 	"github.com/faucetdb/faucet/internal/connector/postgres"
@@ -39,6 +40,20 @@ func postgresDSN() string {
 func mssqlDSN() string {
 	pass := url.QueryEscape("T3C3HHqMtxw%vb455555555")
 	return fmt.Sprintf("sqlserver://admin:%s@sql-server.cmz2vpny0neq.us-east-1.rds.amazonaws.com:1433?database=wwi", pass)
+}
+
+// kingbaseDSN points at the local KingbaseES V8R6 container started with:
+//
+//	docker run -d --name faucet-kb -e DB_MODE=pg -e ENABLE_CI=no \
+//	  -e DB_USER=system -e DB_PASSWORD=faucet123 -p 54321:54321 \
+//	  kingbase_v008r006c009b0014_single_x86:v1
+//
+// Override with KINGBASE_TEST_DSN when needed.
+func kingbaseDSN() string {
+	if dsn := os.Getenv("KINGBASE_TEST_DSN"); dsn != "" {
+		return dsn
+	}
+	return "kingbase://system:faucet123@127.0.0.1:54321/test?sslmode=disable"
 }
 
 // ---------------------------------------------------------------------------
@@ -206,6 +221,39 @@ func TestMSSQLIntegration(t *testing.T) {
 	}
 	knownTables := []string{"Customers", "Shipments"}
 	runConnectorSuite(t, conn, cfg, knownTables, "Customers")
+}
+
+func TestKingbaseIntegration(t *testing.T) {
+	conn := kingbase.New()
+	cfg := connector.ConnectionConfig{
+		Driver: "kingbase",
+		DSN:    kingbaseDSN(),
+	}
+
+	// Seed a fixture table so IntrospectSchema/GetTableNames/BuildSelect have
+	// stable data to assert against (idempotent).
+	if err := conn.Connect(cfg); err != nil {
+		t.Fatalf("setup Connect failed: %v", err)
+	}
+	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+	defer cancel()
+	stmts := []string{
+		`DROP TABLE IF EXISTS kb_integration`,
+		`CREATE TABLE kb_integration (id serial PRIMARY KEY, name text NOT NULL, age int)`,
+		`INSERT INTO kb_integration (name, age) VALUES ('alice', 30), ('bob', 25), ('carol', 40)`,
+	}
+	for _, s := range stmts {
+		if _, err := conn.DB().ExecContext(ctx, s); err != nil {
+			conn.Disconnect()
+			t.Fatalf("setup exec %q failed: %v", s, err)
+		}
+	}
+	if err := conn.Disconnect(); err != nil {
+		t.Fatalf("setup Disconnect failed: %v", err)
+	}
+
+	knownTables := []string{"kb_integration"}
+	runConnectorSuite(t, conn, cfg, knownTables, "kb_integration")
 }
 
 // ---------------------------------------------------------------------------

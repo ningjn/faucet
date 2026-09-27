@@ -14,6 +14,7 @@ interface Service {
 
 const DB_DRIVERS = [
   { value: 'postgres', label: 'PostgreSQL' },
+  { value: 'kingbase', label: 'Kingbase' },
   { value: 'mysql', label: 'MySQL' },
   { value: 'mssql', label: 'SQL Server' },
   { value: 'snowflake', label: 'Snowflake' },
@@ -121,6 +122,8 @@ export function Services() {
     switch (driver) {
       case 'postgres':
         return 'postgres://user:pass@localhost:5432/dbname?sslmode=disable';
+      case 'kingbase':
+        return 'kingbase://user:pass@localhost:54321/dbname?sslmode=disable';
       case 'mysql':
         return 'user:pass@tcp(host:3306)/dbname';
       case 'mssql':
@@ -138,6 +141,8 @@ export function Services() {
         return 'Format: user:pass@tcp(host:port)/dbname — the tcp() wrapper is required';
       case 'postgres':
         return 'Format: postgres://user:pass@host:port/dbname?sslmode=disable';
+      case 'kingbase':
+        return 'Format: kingbase://user:pass@host:54321/dbname?sslmode=disable (KingbaseES)';
       case 'mssql':
         return 'Format: sqlserver://user:pass@host:port?database=dbname';
       default:

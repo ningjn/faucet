@@ -17,6 +17,7 @@ import (
 
 	"github.com/faucetdb/faucet/internal/config"
 	"github.com/faucetdb/faucet/internal/connector"
+	"github.com/faucetdb/faucet/internal/connector/kingbase"
 	"github.com/faucetdb/faucet/internal/connector/mssql"
 	"github.com/faucetdb/faucet/internal/connector/mysql"
 	"github.com/faucetdb/faucet/internal/connector/oracle"
@@ -195,6 +196,7 @@ func newRegistry() *connector.Registry {
 	registry.RegisterDriver("snowflake", func() connector.Connector { return snowflake.New() })
 	registry.RegisterDriver("oracle", func() connector.Connector { return oracle.New() })
 	registry.RegisterDriver("sqlite", func() connector.Connector { return sqlite.New() })
+	registry.RegisterDriver("kingbase", func() connector.Connector { return kingbase.New() })
 	return registry
 }
 

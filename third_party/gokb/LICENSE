@@ -1,0 +1,31 @@
+gokb is derived from lib/pq (https://github.com/lib/pq), which is
+distributed under the MIT license below. The KingbaseES-specific modifications
+are distributed by Kingbase (人大金仓) via the official driver download at
+https://www.kingbase.com.cn/download.html#drive.
+
+Upstream snapshot: v8r6_golang.zip (KingbaseES V008R006 Go driver),
+module path kingbase.com/gokb. The go.mod dependency block (golang-sql/civil,
+shopspring/decimal) was completed by the faucet project because the zip's
+go.mod omitted the packages its source imports.
+
+----------------------------------------------------------------
+
+Copyright (c) 2011-2013, Blake Gentry
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.

@@ -117,7 +117,7 @@ type Connector interface {
 	ParameterPlaceholder(index int) string
 }
 
-// SanitizeDSN ensures that URL-style DSNs (postgres://, sqlserver://) have
+// SanitizeDSN ensures that URL-style DSNs (postgres://, kingbase://,
 // their userinfo (especially the password) properly percent-encoded. Raw
 // passwords containing @, #, %, or other URL-special characters cause the
 // Go URL parser to mis-split the authority component, leading to connection
@@ -128,7 +128,7 @@ type Connector interface {
 // Snowflake uses its own non-URL DSN format and is returned unchanged.
 func SanitizeDSN(driver, dsn string) string {
 	switch driver {
-	case "postgres", "mssql", "oracle":
+	case "postgres", "kingbase", "mssql", "oracle":
 		return sanitizeURLDSN(dsn)
 	case "mysql":
 		return sanitizeMySQLDSN(dsn)
