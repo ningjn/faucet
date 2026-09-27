@@ -123,7 +123,7 @@ Think of it as an open-source alternative to [DreamFactory](https://www.dreamfac
 | Database | Versions | Cloud Variants |
 |----------|----------|----------------|
 | **PostgreSQL** | 9.6 – 17 | Amazon RDS, Aurora, Supabase, Neon, Azure Database |
-| **KingbaseES** | V8R6 (PG mode) | 人大金仓, via official gokb driver ([中文指南](docs/kingbase-zh.md)) |
+| **KingbaseES** | V8R6, V9R1 (PG mode) | 人大金仓, via official gokb driver ([中文指南](docs/kingbase-zh.md)) |
 | **MySQL** | 5.7 – 9.x | Amazon RDS, Aurora MySQL, PlanetScale, Azure MySQL |
 | **MariaDB** | 10.2 – 11.x | Via MySQL driver |
 | **SQL Server** | 2008 – 2022 | Azure SQL Database, Amazon RDS |

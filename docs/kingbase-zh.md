@@ -2,8 +2,8 @@
 
 本文档介绍如何将 Faucet 与人大金仓 KingbaseES 数据库配合使用，把金仓库中的表一键变成安全的 REST API。
 
-- **支持版本**：KingbaseES V8R6（基于 PostgreSQL 12 内核）
-- **驱动**：官方 gokb 驱动（以本地 vendored 形式内置于 `third_party/gokb/`，无需额外安装）
+- **支持版本**：KingbaseES V8R6 与 V9R1（均基于 PostgreSQL 内核，两代均已实测）
+- **驱动**：官方 gokb 驱动 V9R1 版（以本地 vendored 形式内置于 `third_party/gokb/`，无需额外安装；V9 驱动向后兼容 V8R6 服务端）
 - **兼容前提**：数据库实例需运行在 **PG 兼容模式**（`DB_MODE=pg`，详见下文）
 
 ---
@@ -23,7 +23,10 @@ SHOW database_mode;
 
 ### 1.2 Docker 快速启动（测试/体验）
 
+V8R6 与 V9R1 镜像的启动参数完全一致（官网 Docker tar 包 `docker load` 后使用）：
+
 ```bash
+# V8R6
 docker run -d --name faucet-kb \
   -e DB_MODE=pg \
   -e ENABLE_CI=no \
@@ -31,6 +34,15 @@ docker run -d --name faucet-kb \
   -e DB_PASSWORD=你的密码 \
   -p 54321:54321 \
   kingbase_v008r006c009b0014_single_x86:v1
+
+# V9R1（同理，换镜像名即可）
+docker run -d --name faucet-kb9 \
+  -e DB_MODE=pg \
+  -e ENABLE_CI=no \
+  -e DB_USER=system \
+  -e DB_PASSWORD=你的密码 \
+  -p 54321:54321 \
+  kingbase_v009r001c010b0004_single_x86:v1
 ```
 
 注意两个关键参数：
@@ -38,7 +50,7 @@ docker run -d --name faucet-kb \
 | 参数 | 说明 |
 |---|---|
 | `DB_MODE=pg` | **必须**。镜像默认是 oracle 模式，必须显式改为 pg |
-| `ENABLE_CI=no` | **必须**（搭配 pg 模式）。镜像默认 `ENABLE_CI=yes` 会在 pg 模式下导致 initdb 报错 `case-insensitive should only be enabled in oracle mode` |
+| `ENABLE_CI=no` | **必须**（搭配 pg 模式）。镜像默认 `ENABLE_CI=yes` 会在 pg 模式下导致 initdb 报错 `case-insensitive should only be enabled in oracle mode`（V8/V9 镜像行为一致） |
 
 启动后约 30~60 秒完成初始化，默认监听 **54321** 端口。
 
@@ -185,6 +197,7 @@ curl -H "X-API-Key: faucet_YOUR_KEY" "http://localhost:8080/api/v1/kb/_schema"
 
 | 项 | 说明 |
 |---|---|
+| 数据库版本 | V8R6 与 V9R1 服务端均实测通过（集成测试套件 + 端到端 REST 冒烟）；内置驱动为 V9R1 版，向后兼容 V8R6 |
 | 兼容模式 | 仅支持 PG 模式（`SHOW database_mode` 为 `pg`）。Oracle/MySQL 模式不适用 |
 | 方言能力 | `$n` 参数化、`RETURNING`、`ON CONFLICT` upsert、事务均已支持并有集成测试覆盖 |
 | 宽类型 | numeric / bool / timestamptz / jsonb / bytea / 数组 往返验证通过 |
@@ -227,3 +240,5 @@ KINGBASE_TEST_DSN="kingbase://user:pass@host:54321/db?sslmode=disable" \
 ```
 
 无 `FAUCET_INTEGRATION` 环境变量时测试自动跳过（CI 安全）。
+
+该套件已对 V8R6 与 V9R1 实例分别跑通——`KINGBASE_TEST_DSN` 指向对应端口即可在任一版本上回归。
