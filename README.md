@@ -123,7 +123,7 @@ Think of it as an open-source alternative to [DreamFactory](https://www.dreamfac
 | Database | Versions | Cloud Variants |
 |----------|----------|----------------|
 | **PostgreSQL** | 9.6 – 17 | Amazon RDS, Aurora, Supabase, Neon, Azure Database |
-| **KingbaseES** | V8R6 (PG mode) | 人大金仓, via official gokb driver |
+| **KingbaseES** | V8R6 (PG mode) | 人大金仓, via official gokb driver ([中文指南](docs/kingbase-zh.md)) |
 | **MySQL** | 5.7 – 9.x | Amazon RDS, Aurora MySQL, PlanetScale, Azure MySQL |
 | **MariaDB** | 10.2 – 11.x | Via MySQL driver |
 | **SQL Server** | 2008 – 2022 | Azure SQL Database, Amazon RDS |
@@ -169,7 +169,7 @@ faucet serve
 faucet admin create --email admin@example.com --password changeme123
 
 # Add a database
-faucet db add mydb --driver postgres --dsn "postgres://user:pass@localhost/mydb?sslmode=disable"
+faucet db add --name mydb --driver postgres --dsn "postgres://user:pass@localhost/mydb?sslmode=disable"
 
 # Create a role that can read every service, then an API key bound to it
 faucet role create --name default --verbs GET
@@ -391,6 +391,8 @@ make dev        # Dev mode with hot reload
 ## Documentation
 
 Full documentation is available at the [Faucet Wiki](https://wiki.faucetdb.ai).
+
+- [KingbaseES（人大金仓）使用指南](docs/kingbase-zh.md) — 中文，覆盖 Docker 部署、DSN 格式、REST API 用法与兼容性说明
 
 ## Contributing
 

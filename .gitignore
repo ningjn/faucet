@@ -65,5 +65,6 @@ npm/win32-arm64/bin/
 !npm/faucet/bin/faucet
 
 # Docs (separate repo: faucetdb/wiki)
-docs/
+docs/*
+!docs/kingbase-zh.md
 docs-site/
