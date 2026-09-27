@@ -500,6 +500,16 @@ func TestBuildCount(t *testing.T) {
 			wantArgs: nil,
 		},
 		{
+			name: "count with parameterized filter returns filter args",
+			req: connector.CountRequest{
+				Table:      "users",
+				Filter:     "age > $1",
+				FilterArgs: []interface{}{18},
+			},
+			wantSQL:  `SELECT COUNT(*) FROM "public"."users" WHERE age > $1`,
+			wantArgs: []interface{}{18},
+		},
+		{
 			name: "count with complex filter",
 			req: connector.CountRequest{
 				Table:  "orders",

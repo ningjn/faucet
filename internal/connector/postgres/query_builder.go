@@ -261,6 +261,7 @@ func (c *PostgresConnector) BuildCount(_ context.Context, req connector.CountReq
 	}
 
 	var b strings.Builder
+	var args []interface{}
 
 	b.WriteString("SELECT COUNT(*) FROM ")
 	b.WriteString(c.QuoteIdentifier(c.schemaName))
@@ -270,9 +271,10 @@ func (c *PostgresConnector) BuildCount(_ context.Context, req connector.CountReq
 	if req.Filter != "" {
 		b.WriteString(" WHERE ")
 		b.WriteString(req.Filter)
+		args = append(args, req.FilterArgs...)
 	}
 
-	return b.String(), nil, nil
+	return b.String(), args, nil
 }
 
 // CreateTable creates a new table from a TableSchema definition, translating
