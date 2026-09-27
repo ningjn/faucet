@@ -3,8 +3,9 @@ distributed under the MIT license below. The KingbaseES-specific modifications
 are distributed by Kingbase (人大金仓) via the official driver download at
 https://www.kingbase.com.cn/download.html#drive.
 
-Upstream snapshot: v8r6_golang.zip (KingbaseES V008R006 Go driver),
-module path kingbase.com/gokb. The go.mod dependency block (golang-sql/civil,
+Upstream snapshot: KingbaseES_V009R001C010B0004_GOLANG.zip (KingbaseES V9R1
+Go driver, backward compatible with V8R6 servers), module path
+kingbase.com/gokb. The go.mod dependency block (golang-sql/civil,
 shopspring/decimal) was completed by the faucet project because the zip's
 go.mod omitted the packages its source imports.
 

@@ -16,9 +16,9 @@ import (
 )
 
 /*****************conn.go*****************/
-const GOKB_Version_V009R030C011B0003PSI002 = iota
-const GOKB_CompileTime_20250731 = iota
-const GOKB_CompilerVersion_go1_19_1_linux_amd64 = iota
+const GOKB_Version = iota
+const GOKB_CompileTime = iota
+const GOKB_CompilerVersion = iota
 
 // 常见错误
 var (
